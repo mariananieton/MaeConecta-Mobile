@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ImageBackground, Image, FlatList, TouchableOpacity } from "react-native";
+import React, {useEffect, useState} from "react";
+import {FlatList, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Menu from "../menu/Menu";
 import jwtDecode from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const Procedimentos = ({ navigation }) => {
+const Procedimentos = ({navigation}) => {
     const [procedimentos, setProcedimentos] = useState([]);
     const [token, setToken] = useState('');
     const [userId, setUserId] = useState('');
@@ -80,10 +80,10 @@ const Procedimentos = ({ navigation }) => {
 
     console.log(procedimentos)
 
-    const renderItem = ({ item }) => (
+    const renderItem = ({item}) => (
         <TouchableOpacity style={styles.touchableOpacity} onPress={() => navigateToAtualizarProcedimentos(item.id)}>
             <View style={styles.itemContainer}>
-                <Image source={require('../procedimentos/img/procedimentos.png')} style={styles.imageItem} />
+                <Image source={require('../procedimentos/img/procedimentos.png')} style={styles.imageItem}/>
                 <View style={styles.infoContainer}>
                     <View style={styles.infoRow}>
                         <Text style={styles.nomeProcedimento}>{item.especialidade}</Text>

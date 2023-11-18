@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, TextInput, Alert } from "react-native";
+import React, {useEffect, useState} from "react";
+import {Alert, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Menu from "../menu/Menu";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwtDecode from 'jwt-decode';
-import { Picker } from '@react-native-picker/picker';
+import {Picker} from '@react-native-picker/picker';
 
-const CadastroOcorrencias = ({ navigation }) => {
+const CadastroOcorrencias = ({navigation}) => {
     const [titulo, setTitulo] = useState("");
     const [dataOcorrencia, setDataOcorrencia] = useState("");
     const [descricao, setDescricao] = useState("");
@@ -84,10 +84,10 @@ const CadastroOcorrencias = ({ navigation }) => {
                 titulo,
                 dataOcorrencia,
                 descricao,
-                ...(procedimentoId !== null && { procedimentoId }),
+                ...(procedimentoId !== null && {procedimentoId}),
             };
 
-            console.log('Corpo da requisição:', JSON.stringify( ocorrencia ));
+            console.log('Corpo da requisição:', JSON.stringify(ocorrencia));
 
             fetch(`http://IP:8080/api/v1/ocorrencia/${userId}`, {
                 method: 'POST',
@@ -114,7 +114,8 @@ const CadastroOcorrencias = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <ImageBackground source={require('../cadastroOcorrencias/img/TELA_LOGO.png')} style={styles.backgroundImage}>
+            <ImageBackground source={require('../cadastroOcorrencias/img/TELA_LOGO.png')}
+                             style={styles.backgroundImage}>
                 <View style={styles.contentContainer}>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>Cadastro de Ocorrência Gestacional</Text>
@@ -159,10 +160,11 @@ const CadastroOcorrencias = ({ navigation }) => {
                                     selectedValue={procedimentoId}
                                     onValueChange={(itemValue) => setProcedimentoId(itemValue)}
                                 >
-                                    <Picker.Item label="Selecione um procedimento (opcional)" value={null} />
+                                    <Picker.Item label="Selecione um procedimento (opcional)" value={null}/>
                                     {(procedimentos && Array.isArray(procedimentos)) ? (
                                         procedimentos.map((procedimento) => (
-                                            <Picker.Item key={procedimento.id} label={procedimento.especialidade} value={procedimento.id} />
+                                            <Picker.Item key={procedimento.id} label={procedimento.especialidade}
+                                                         value={procedimento.id}/>
                                         ))
                                     ) : null}
                                 </Picker>

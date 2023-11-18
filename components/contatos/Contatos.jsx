@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ImageBackground, Image, FlatList, TouchableOpacity } from "react-native";
+import React, {useEffect, useState} from "react";
+import {FlatList, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Menu from "../menu/Menu";
 import jwtDecode from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const Contatos = ({ navigation }) => {
+const Contatos = ({navigation}) => {
     const [contatos, setContatos] = useState([]);
     const [token, setToken] = useState('');
     const [userId, setUserId] = useState('');
@@ -80,10 +80,10 @@ const Contatos = ({ navigation }) => {
 
     console.log(contatos)
 
-    const renderItem = ({ item }) => (
+    const renderItem = ({item}) => (
         <TouchableOpacity style={styles.touchableOpacity} onPress={() => navigateToAtualizarContatos(item.id)}>
             <View style={styles.itemContainer}>
-                <Image source={require('../contatos/img/contatos.png')} style={styles.imageItem} />
+                <Image source={require('../contatos/img/contatos.png')} style={styles.imageItem}/>
                 <View style={styles.infoContainer}>
                     <View style={styles.infoRow}>
                         <Text style={styles.nomeProcedimento}>{item.nome}</Text>

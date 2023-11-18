@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text, TouchableOpacity, StyleSheet, Image} from "react-native";
+import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
 const Menu = ({navigation}) => {
     return (

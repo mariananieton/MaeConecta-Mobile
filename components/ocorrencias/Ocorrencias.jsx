@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ImageBackground, Image, FlatList, TouchableOpacity } from "react-native";
+import React, {useEffect, useState} from "react";
+import {FlatList, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Menu from "../menu/Menu";
 import jwtDecode from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const Ocorrencias = ({ navigation }) => {
+const Ocorrencias = ({navigation}) => {
     const [ocorrencias, setOcorrencias] = useState([]);
     const [procedimentos, setProcedimentos] = useState({});
 
@@ -103,10 +103,10 @@ const Ocorrencias = ({ navigation }) => {
 
     console.log(ocorrencias)
 
-    const renderItem = ({ item }) => (
+    const renderItem = ({item}) => (
         <TouchableOpacity style={styles.touchableOpacity} onPress={() => navigateToAtualizarOcorrencias(item.id)}>
             <View style={styles.itemContainer}>
-                <Image source={require('../ocorrencias/img/ocorrencias.png')} style={styles.imageItem} />
+                <Image source={require('../ocorrencias/img/ocorrencias.png')} style={styles.imageItem}/>
                 <View style={styles.infoContainer}>
                     <View style={styles.infoRow}>
                         <Text style={styles.nomeProcedimento}>{item.titulo}</Text>
@@ -121,7 +121,8 @@ const Ocorrencias = ({ navigation }) => {
                     </View>
                     <View style={styles.infoRow}>
                         <Text style={styles.texto}>Procedimento relacionado:</Text>
-                        <Text style={styles.texto}>{item.procedimentoId && procedimentos[item.procedimentoId] ? procedimentos[item.procedimentoId].especialidade : 'N/A'}</Text>
+                        <Text
+                            style={styles.texto}>{item.procedimentoId && procedimentos[item.procedimentoId] ? procedimentos[item.procedimentoId].especialidade : 'N/A'}</Text>
                     </View>
                 </View>
             </View>

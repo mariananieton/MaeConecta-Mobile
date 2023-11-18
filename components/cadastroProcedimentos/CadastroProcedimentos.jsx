@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, TextInput, Alert } from "react-native";
+import React, {useEffect, useState} from "react";
+import {Alert, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Menu from "../menu/Menu";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Picker } from '@react-native-picker/picker';
+import {Picker} from '@react-native-picker/picker';
 import jwtDecode from 'jwt-decode';
 
-const CadastroProcedimentos = ({ navigation }) => {
+const CadastroProcedimentos = ({navigation}) => {
     const [tipoProcedimento, setTipoProcedimento] = useState("");
     const [dataProcedimento, setDataProcedimento] = useState("");
     const [especialidade, setEspecialidade] = useState("");
@@ -105,7 +105,8 @@ const CadastroProcedimentos = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <ImageBackground source={require('../cadastroProcedimentos/img/TELA_LOGO.png')} style={styles.backgroundImage}>
+            <ImageBackground source={require('../cadastroProcedimentos/img/TELA_LOGO.png')}
+                             style={styles.backgroundImage}>
                 <View style={styles.contentContainer}>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>Cadastro de Procedimentos</Text>
@@ -121,9 +122,9 @@ const CadastroProcedimentos = ({ navigation }) => {
                                 setTipoProcedimento(itemValue);
                             }}
                         >
-                            <Picker.Item label="Selecione o tipo" value="" />
-                            <Picker.Item label="Consulta" value="Consulta" />
-                            <Picker.Item label="Exame" value="Exame" />
+                            <Picker.Item label="Selecione o tipo" value=""/>
+                            <Picker.Item label="Consulta" value="Consulta"/>
+                            <Picker.Item label="Exame" value="Exame"/>
                         </Picker>
                     </View>
                     <View style={styles.label}>
@@ -134,9 +135,9 @@ const CadastroProcedimentos = ({ navigation }) => {
                             selectedValue={especialidade}
                             onValueChange={(itemValue) => setEspecialidade(itemValue)}
                         >
-                            <Picker.Item label="Selecione a especialidade" value="" />
+                            <Picker.Item label="Selecione a especialidade" value=""/>
                             {especialidades.map((especialidade, index) => (
-                                <Picker.Item key={index} label={especialidade} value={especialidade} />
+                                <Picker.Item key={index} label={especialidade} value={especialidade}/>
                             ))}
                         </Picker>
                     </View>
@@ -157,7 +158,7 @@ const CadastroProcedimentos = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <Menu navigation={navigation} />
+                <Menu navigation={navigation}/>
             </ImageBackground>
         </View>
     );

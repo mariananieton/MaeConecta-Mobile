@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { View, Text, StyleSheet, ImageBackground, Image,TouchableOpacity } from "react-native";
+import {Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Menu from "../menu/Menu";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import jwtDecode from "jwt-decode";
@@ -61,13 +61,14 @@ const Home = ({navigation}) => {
             <ImageBackground source={require('../home/img/sem-logo.png')} style={styles.backgroundImage}>
                 <View style={styles.contentContainer}>
                     <View style={styles.titleContainer}>
-                        <Image source={require('../home/img/gestante.png')} style={styles.image} />
+                        <Image source={require('../home/img/gestante.png')} style={styles.image}/>
                         <Text style={styles.title}>Home</Text>
                     </View>
                     {usuario && (
                         <View>
                             <Text style={styles.textContent}>Olá, {usuario.nome}!</Text>
-                            <Text style={styles.textContent}>Você está na {usuario.semanasGestacao}ª semana de gravidez!</Text>
+                            <Text style={styles.textContent}>Você está na {usuario.semanasGestacao}ª semana de
+                                gravidez!</Text>
                             <Text style={styles.textContent}>Está conosco desde {usuario.dataCadastro}.</Text>
                             <Text style={styles.textContent}>Tipo Sanguíneo: {usuario.tipoSanguineo}</Text>
                         </View>
@@ -80,19 +81,22 @@ const Home = ({navigation}) => {
                     <View style={styles.buttonContainer}>
                         <Text style={styles.title}>Deseja cadastrar algo?</Text>
                         <View style={styles.iconRow}>
-                            <TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate('CadastroProcedimentos')}>
-                                <Image source={require('../home/img/PROCEDIMENTO.png')} style={styles.icon} />
+                            <TouchableOpacity style={styles.iconContainer}
+                                              onPress={() => navigation.navigate('CadastroProcedimentos')}>
+                                <Image source={require('../home/img/PROCEDIMENTO.png')} style={styles.icon}/>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate('CadastroOcorrencias')}>
-                                <Image source={require('../home/img/OCORRENCIAS.png')} style={styles.icon} />
+                            <TouchableOpacity style={styles.iconContainer}
+                                              onPress={() => navigation.navigate('CadastroOcorrencias')}>
+                                <Image source={require('../home/img/OCORRENCIAS.png')} style={styles.icon}/>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate('CadastroContatos')}>
-                                <Image source={require('../home/img/CONTATO.png')} style={styles.icon} />
+                            <TouchableOpacity style={styles.iconContainer}
+                                              onPress={() => navigation.navigate('CadastroContatos')}>
+                                <Image source={require('../home/img/CONTATO.png')} style={styles.icon}/>
                             </TouchableOpacity>
                         </View>
                     </View>
                 </View>
-                <Menu navigation={navigation} />
+                <Menu navigation={navigation}/>
             </ImageBackground>
         </View>
     );
@@ -168,7 +172,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
+        shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.4,
         shadowRadius: 2,
         elevation: 2,

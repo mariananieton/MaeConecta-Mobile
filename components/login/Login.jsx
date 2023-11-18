@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {View, Text, TouchableOpacity, StyleSheet, ImageBackground, TextInput} from "react-native";
+import {ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({navigation}) => {

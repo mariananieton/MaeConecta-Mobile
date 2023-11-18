@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {View, Text, TouchableOpacity, StyleSheet, ImageBackground, TextInput, Alert} from "react-native";
+import {Alert, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 
 const Cadastro = ({navigation}) => {
     const [nome, setNome] = useState("");
@@ -48,7 +48,7 @@ const Cadastro = ({navigation}) => {
                 }
             };
 
-            console.log('Corpo da requisição:', JSON.stringify( usuario ));
+            console.log('Corpo da requisição:', JSON.stringify(usuario));
 
             fetch('http://IP:8080/api/v1/usuario', {
                 method: 'POST',

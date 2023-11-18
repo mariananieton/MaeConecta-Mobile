@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image} from "react-native";
-import Menu from "../menu/Menu";
+import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwtDecode from 'jwt-decode';
 
-const Assistente = ({ navigation }) => {
+const Assistente = ({navigation}) => {
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const [resposta, setResposta] = useState("");
@@ -60,7 +59,7 @@ const Assistente = ({ navigation }) => {
                 setResposta(respostaDoServidor);
 
 
-                setMessages([{ text: message }]);
+                setMessages([{text: message}]);
                 setMessage("");
             }
         } catch (error) {
@@ -72,7 +71,7 @@ const Assistente = ({ navigation }) => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                    <Image source={require('../assistente/img/logo.png')} style={styles.icon} />
+                    <Image source={require('../assistente/img/logo.png')} style={styles.icon}/>
                 </TouchableOpacity>
                 <Text style={styles.title}>MamãeAssistente</Text>
             </View>

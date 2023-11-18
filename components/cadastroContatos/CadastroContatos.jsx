@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, TextInput, Alert} from "react-native";
+import React, {useEffect, useState} from "react";
+import {Alert, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Menu from "../menu/Menu";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwtDecode from 'jwt-decode';
@@ -60,7 +60,7 @@ const CadastroContatos = ({navigation}) => {
                 relacionamento,
             };
 
-            console.log('Corpo da requisição:', JSON.stringify( contato ));
+            console.log('Corpo da requisição:', JSON.stringify(contato));
 
             fetch(`http://IP:8080/api/v1/contato/${userId}`, {
                 method: 'POST',
