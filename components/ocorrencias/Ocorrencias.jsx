@@ -80,6 +80,14 @@ const Ocorrencias = ({navigation}) => {
         fetchOcorrencias();
     }, [userId]);
 
+    useEffect(() => {
+        const unsubscribeFocus = navigation.addListener('focus', () => {
+            fetchOcorrencias();
+        });
+
+        return unsubscribeFocus;
+    }, [userId, navigation]);
+
     const navigateToAtualizarOcorrencias = (idOcorrencia) => {
         navigation.navigate('AtualizarOcorrencias', {
             idOcorrencia,

@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {Alert, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import Menu from "../menu/Menu";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import jwtDecode from 'jwt-decode';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import jwtDecode from "jwt-decode";
 
-const CadastroContatos = ({navigation}) => {
+const AtualizarDados = ({route, navigation}) => {
+    const {idUsuario, fetchUsuario} = route.params;
 
     const [nome, setNome] = useState("");
-    const [telefone, setTelefone] = useState("");
-    const [relacionamento, setRelacionamento] = useState("");
+    const [dataNascimento, setDataNascimento] = useState("");
+    const [tipoSanguineo, setTipoSanguineo] = useState("");
+    const [semanasGestacao, setSemanasGestacao] = useState(0);
 
     const [token, setToken] = useState('');
     const [userId, setUserId] = useState('');
@@ -39,41 +40,46 @@ const CadastroContatos = ({navigation}) => {
         decodeToken();
     }, [token]);
 
-    const handleSalvar = () => {
-        if (!nome || !relacionamento || !telefone) {
+    const handleAtualizar
+        = () => {
+        if (!nome || !tipoSanguineo || !dataNascimento || !semanasGestacao) {
             console.log("Por favor, preencha todos os campos.");
             Alert.alert("Erro", "Por favor, preencha todos os campos.");
         } else if (nome.length < 3 || nome.length > 50) {
             console.log("Erro: O nome precisa ter entre 3 e 50 caracteres.");
             Alert.alert("Erro", "O nome precisa ter entre 3 e 50 caracteres.");
-        } else if (!validarTelefone(telefone)) {
-            console.log("Erro: Telefone inválido. Precisa ter 9 dígitos.");
-            Alert.alert("Erro", "Telefone inválido. Precisa ter 9 dígitos.");
-        } else if (relacionamento.length < 3 || relacionamento.length > 100) {
-            console.log("Erro: Relacionamento precisa ter entre 3 e 100 caracteres.");
-            Alert.alert("Erro", "Relacionamento precisa ter entre 3 e 100 caracteres.");
+        } else if (!validarDataNascimento(dataNascimento)) {
+            console.log("Erro: Data de nascimento inválida. Utilize o formato yyyy-MM-dd.");
+            Alert.alert("Erro", "Data de nascimento inválida. Utilize o formato yyyy-MM-dd.");
+        } else if (!validarTipoSanguineo(tipoSanguineo)) {
+            console.log("Erro: Tipo sanguíneo inválido. Utilize o formato 'O+', 'AB-'.");
+            Alert.alert("Erro", "Tipo sanguíneo inválido. Utilize o formato 'O+', 'AB-'.");
+        } else if (!validarSemanasGestacao(semanasGestacao)) {
+            console.log("Erro: Semanas de gestação inválidas. Deve estar entre 0 e 45.");
+            Alert.alert("Erro", "Semanas de gestação inválidas. Deve estar entre 0 e 45.");
         } else {
 
-            const contato = {
+            const usuario = {
                 nome,
-                telefone,
-                relacionamento,
+                dataNascimento,
+                tipoSanguineo,
+                semanasGestacao,
             };
 
-            console.log('Corpo da requisição:', JSON.stringify(contato));
+            console.log('Corpo da requisição:', JSON.stringify(usuario));
 
-            fetch(`http://IP:8080/api/v1/contato/${userId}`, {
-                method: 'POST',
+            fetch(`http://IP:8080/api/v1/usuario/${idUsuario}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `${token}`,
                 },
-                body: JSON.stringify(contato),
+                body: JSON.stringify(usuario),
             })
                 .then(response => response.json())
                 .then(responseJson => {
                     console.log(responseJson);
-                    navigation.navigate("Contatos");
+                    navigation.navigate('Home');
                 })
                 .catch(error => {
                     console.error(error);
@@ -81,16 +87,26 @@ const CadastroContatos = ({navigation}) => {
         }
     };
 
-    const validarTelefone = (telefone) => {
-        return /^\d{9}$/.test(telefone);
+    const validarDataNascimento = (data) => {
+        return /^\d{4}-\d{2}-\d{2}$/.test(data);
+    };
+
+    const validarSemanasGestacao = (semanasGestacao) => {
+        const semanasGestacaoInt = parseInt(semanasGestacao, 10);
+        return !isNaN(semanasGestacaoInt) && semanasGestacaoInt >= 0 && semanasGestacaoInt <= 45;
+    };
+
+    const validarTipoSanguineo = (tipoSanguineo) => {
+        const regexTipoSanguineo = /^[ABO][\+-]|[ABO]{2}[\+-]$/;
+        return regexTipoSanguineo.test(tipoSanguineo);
     };
 
     return (
         <View style={styles.container}>
-            <ImageBackground source={require('../cadastroContatos/img/TELA_LOGO.png')} style={styles.backgroundImage}>
+            <ImageBackground source={require('../atualizarDados/img/sem-logo.png')} style={styles.backgroundImage}>
                 <View style={styles.contentContainer}>
                     <View style={styles.titleContainer}>
-                        <Text style={styles.title}>Cadastro de Contato</Text>
+                        <Text style={styles.title}>Atualizar Dados Cadastrais</Text>
                     </View>
                     <View>
                         <View style={styles.label}>
@@ -99,41 +115,61 @@ const CadastroContatos = ({navigation}) => {
                         <View style={styles.inputContainer}>
                             <TextInput
                                 style={styles.input}
-                                placeholder="Digite o nome do contato"
+                                placeholder="Digite seu nome"
                                 value={nome}
                                 onChangeText={setNome}
                             />
                         </View>
                         <View style={styles.label}>
-                            <Text style={styles.textInput}>Telefone</Text>
+                            <Text style={styles.textInput}>Data de Nascimento</Text>
                         </View>
                         <View style={styles.inputContainer}>
                             <TextInput
                                 style={styles.input}
-                                placeholder="Digite o telefone do contato"
-                                value={telefone}
-                                onChangeText={setTelefone}
+                                placeholder="Digite sua data de nascimento"
+                                value={dataNascimento}
+                                onChangeText={setDataNascimento}
                             />
                         </View>
                         <View style={styles.label}>
-                            <Text style={styles.textInput}>Relacionamento</Text>
+                            <Text style={styles.textInput}>Tipo Sanguíneo</Text>
                         </View>
                         <View style={styles.inputContainer}>
                             <TextInput
                                 style={styles.input}
-                                placeholder="Exemplo: noivo, pai, mãe, etc."
-                                value={relacionamento}
-                                onChangeText={setRelacionamento}
+                                placeholder="Digite seu tipo sanguíneo"
+                                value={tipoSanguineo}
+                                onChangeText={setTipoSanguineo}
                             />
                         </View>
+                        <View>
+                            <View style={styles.label}>
+                                <Text style={styles.textInput}>Semanas de Gestação</Text>
+                            </View>
+                            <View style={styles.inputContainer}>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Digite em qual semana você está"
+                                    value={semanasGestacao === 0 ? '' : semanasGestacao.toString()}
+                                    onChangeText={(text) => {
+                                        const numericValue = parseInt(text, 10);
+                                        setSemanasGestacao(isNaN(numericValue) ? 0 : numericValue);
+                                    }}
+                                    keyboardType="numeric"
+                                />
+                            </View>
+                        </View>
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button} onPress={handleSalvar}>
-                                <Text style={styles.buttonText}>Salvar</Text>
+                            <TouchableOpacity style={styles.button} onPress={handleAtualizar
+                            }>
+                                <Text style={styles.buttonText}>Atualizar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
+                                <Text style={styles.buttonText}>Voltar</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                 </View>
-                <Menu navigation={navigation}/>
             </ImageBackground>
         </View>
     );
@@ -146,7 +182,6 @@ const styles = StyleSheet.create({
     backgroundImage: {
         flex: 1,
         resizeMode: 'cover',
-        height: '130%',
     },
     contentContainer: {
         flex: 1,
@@ -163,7 +198,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     buttonContainer: {
-        marginTop: 10,
+        marginTop: 5,
         alignItems: 'center',
     },
     inputContainer: {
@@ -214,4 +249,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CadastroContatos;
+export default AtualizarDados;

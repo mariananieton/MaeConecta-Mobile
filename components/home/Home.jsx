@@ -56,6 +56,35 @@ const Home = ({navigation}) => {
         fetchUsuario();
     }, [userId]);
 
+    useEffect(() => {
+        const unsubscribeFocus = navigation.addListener('focus', () => {
+            fetchUsuario();
+        });
+
+        return unsubscribeFocus;
+    }, [userId, navigation]);
+
+    const navigateToAtualizarDados = (idUsuario) => {
+        navigation.navigate('AtualizarDados', {
+            idUsuario,
+            fetchUsuario: fetchUsuario,
+        });
+    };
+
+    useEffect(() => {
+        const updateFetchUsuario = () => {
+            navigation.setParams({
+                fetchUsuario: fetchUsuario,
+            });
+        };
+
+        navigation.addListener('focus', updateFetchUsuario);
+
+        return () => {
+            navigation.removeListener('focus', updateFetchUsuario);
+        };
+    }, [navigation]);
+
     return (
         <View style={styles.container}>
             <ImageBackground source={require('../home/img/sem-logo.png')} style={styles.backgroundImage}>
@@ -74,7 +103,7 @@ const Home = ({navigation}) => {
                         </View>
                     )}
                     <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={fetchUsuario}>
+                        <TouchableOpacity style={styles.button} onPress={() => navigateToAtualizarDados(userId)}>
                             <Text style={styles.buttonText}>Atualizar Dados</Text>
                         </TouchableOpacity>
                     </View>

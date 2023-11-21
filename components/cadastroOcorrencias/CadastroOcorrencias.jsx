@@ -100,7 +100,7 @@ const CadastroOcorrencias = ({navigation}) => {
                 .then(response => response.json())
                 .then(responseJson => {
                     console.log(responseJson);
-                    navigation.navigate("Home");
+                    navigation.navigate("Ocorrencias");
                 })
                 .catch(error => {
                     console.error(error);

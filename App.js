@@ -20,6 +20,8 @@ import AtualizarProcedimentos from "./components/atualizarProcedimentos/Atualiza
 import Contatos from "./components/contatos/Contatos";
 import AtualizarContatos from "./components/atualizarContatos/AtualizarContatos";
 import Ocorrencias from "./components/ocorrencias/Ocorrencias";
+import AtualizarDados from "./components/atualizarDados/AtualizarDados";
+import AtualizarOcorrencias from "./components/atualizarOcorrencias/AtualizarOcorrencias";
 
 const Stack = createNativeStackNavigator();
 
@@ -85,6 +87,16 @@ const App = () => {
                 <Stack.Screen
                     name="Ocorrencias"
                     component={Ocorrencias}
+                    options={{headerShown: false}}
+                />
+                <Stack.Screen
+                    name="AtualizarDados"
+                    component={AtualizarDados}
+                    options={{headerShown: false}}
+                />
+                <Stack.Screen
+                    name="AtualizarOcorrencias"
+                    component={AtualizarOcorrencias}
                     options={{headerShown: false}}
                 />
             </Stack.Navigator>

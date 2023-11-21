@@ -4,11 +4,12 @@ import Menu from "../menu/Menu";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwtDecode from 'jwt-decode';
 
-const CadastroContatos = ({navigation}) => {
+const AtualizarOcorrencias = ({route, navigation}) => {
+    const {idOcorrencia, fetchOcorrencias} = route.params;
 
-    const [nome, setNome] = useState("");
-    const [telefone, setTelefone] = useState("");
-    const [relacionamento, setRelacionamento] = useState("");
+    const [titulo, setTitulo] = useState("");
+    const [dataOcorrencia, setDataOcorrencia] = useState("");
+    const [descricao, setDescricao] = useState("");
 
     const [token, setToken] = useState('');
     const [userId, setUserId] = useState('');
@@ -39,41 +40,41 @@ const CadastroContatos = ({navigation}) => {
         decodeToken();
     }, [token]);
 
-    const handleSalvar = () => {
-        if (!nome || !relacionamento || !telefone) {
+    const handleAtualizar = () => {
+        if (!titulo || !descricao || !dataOcorrencia) {
             console.log("Por favor, preencha todos os campos.");
             Alert.alert("Erro", "Por favor, preencha todos os campos.");
-        } else if (nome.length < 3 || nome.length > 50) {
-            console.log("Erro: O nome precisa ter entre 3 e 50 caracteres.");
-            Alert.alert("Erro", "O nome precisa ter entre 3 e 50 caracteres.");
-        } else if (!validarTelefone(telefone)) {
-            console.log("Erro: Telefone inválido. Precisa ter 9 dígitos.");
-            Alert.alert("Erro", "Telefone inválido. Precisa ter 9 dígitos.");
-        } else if (relacionamento.length < 3 || relacionamento.length > 100) {
-            console.log("Erro: Relacionamento precisa ter entre 3 e 100 caracteres.");
-            Alert.alert("Erro", "Relacionamento precisa ter entre 3 e 100 caracteres.");
+        } else if (titulo.length < 3 || titulo.length > 50) {
+            console.log("Erro: O titulo precisa ter entre 3 e 50 caracteres.");
+            Alert.alert("Erro", "O titulo precisa ter entre 3 e 50 caracteres.");
+        } else if (!validarDataOcorrencia(dataOcorrencia)) {
+            console.log("Erro: Data inválida. Utilize o formato yyyy-MM-dd.");
+            Alert.alert("Erro", "Data inválida. Utilize o formato yyyy-MM-dd.");
+        } else if (descricao.length < 3 || descricao.length > 200) {
+            console.log("Erro: Descricao precisa ter entre 3 e 100 caracteres.");
+            Alert.alert("Erro", "Descricao precisa ter entre 3 e 100 caracteres.");
         } else {
 
-            const contato = {
-                nome,
-                telefone,
-                relacionamento,
+            const ocorrencia = {
+                titulo,
+                dataOcorrencia,
+                descricao,
             };
 
-            console.log('Corpo da requisição:', JSON.stringify(contato));
+            console.log('Corpo da requisição:', JSON.stringify(ocorrencia));
 
-            fetch(`http://IP:8080/api/v1/contato/${userId}`, {
-                method: 'POST',
+            fetch(`http://IP:8080/api/v1/ocorrencia/${idOcorrencia}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `${token}`,
                 },
-                body: JSON.stringify(contato),
+                body: JSON.stringify(ocorrencia),
             })
                 .then(response => response.json())
                 .then(responseJson => {
                     console.log(responseJson);
-                    navigation.navigate("Contatos");
+                    navigation.navigate("Ocorrencias");
                 })
                 .catch(error => {
                     console.error(error);
@@ -81,54 +82,74 @@ const CadastroContatos = ({navigation}) => {
         }
     };
 
-    const validarTelefone = (telefone) => {
-        return /^\d{9}$/.test(telefone);
+    const validarDataOcorrencia = (data) => {
+        return /^\d{4}-\d{2}-\d{2}$/.test(data);
+    };
+
+    const handleExcluir = async () => {
+        try {
+            await fetch(`http://IP:8080/api/v1/ocorrencia/${idOcorrencia}`, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `${token}`,
+                },
+            });
+            fetchOcorrencias();
+            navigation.navigate("Ocorrencias");
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
         <View style={styles.container}>
-            <ImageBackground source={require('../cadastroContatos/img/TELA_LOGO.png')} style={styles.backgroundImage}>
+            <ImageBackground source={require('../atualizarOcorrencias/img/TELA_LOGO.png')}
+                             style={styles.backgroundImage}>
                 <View style={styles.contentContainer}>
                     <View style={styles.titleContainer}>
-                        <Text style={styles.title}>Cadastro de Contato</Text>
+                        <Text style={styles.title}>Atualizar Ocorrência Gestacional</Text>
                     </View>
                     <View>
                         <View style={styles.label}>
-                            <Text style={styles.textInput}>Nome completo</Text>
+                            <Text style={styles.textInput}>Título da Ocorrência</Text>
                         </View>
                         <View style={styles.inputContainer}>
                             <TextInput
                                 style={styles.input}
-                                placeholder="Digite o nome do contato"
-                                value={nome}
-                                onChangeText={setNome}
+                                placeholder="Digite o título da ocorrência"
+                                value={titulo}
+                                onChangeText={setTitulo}
                             />
                         </View>
                         <View style={styles.label}>
-                            <Text style={styles.textInput}>Telefone</Text>
+                            <Text style={styles.textInput}>Data da Ocorrência</Text>
                         </View>
                         <View style={styles.inputContainer}>
                             <TextInput
                                 style={styles.input}
-                                placeholder="Digite o telefone do contato"
-                                value={telefone}
-                                onChangeText={setTelefone}
+                                placeholder="Digite a data da ocorrência"
+                                value={dataOcorrencia}
+                                onChangeText={setDataOcorrencia}
                             />
                         </View>
                         <View style={styles.label}>
-                            <Text style={styles.textInput}>Relacionamento</Text>
+                            <Text style={styles.textInput}>Descrição</Text>
                         </View>
                         <View style={styles.inputContainer}>
                             <TextInput
                                 style={styles.input}
-                                placeholder="Exemplo: noivo, pai, mãe, etc."
-                                value={relacionamento}
-                                onChangeText={setRelacionamento}
+                                placeholder="Descreva o acontecimento"
+                                value={descricao}
+                                onChangeText={setDescricao}
                             />
                         </View>
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button} onPress={handleSalvar}>
-                                <Text style={styles.buttonText}>Salvar</Text>
+                            <TouchableOpacity style={styles.button} onPress={handleAtualizar}>
+                                <Text style={styles.buttonText}>Atualizar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.button} onPress={handleExcluir}>
+                                <Text style={styles.buttonText}>Excluir</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -214,4 +235,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CadastroContatos;
+export default AtualizarOcorrencias;
